@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node *front = NULL, *rear = NULL;
+
+void enqueue(int value) {
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = value;
+    temp->next = NULL;
+
+    if (rear == NULL) {
+        front = rear = temp;
+    } else {
+        rear->next = temp;
+        rear = temp;
+    }
+    printf("Inserted %d\n", value);
+}
+
+void dequeue() {
+    if (front == NULL) {
+        printf("Queue Underflow\n");
+        return;
+    }
+    struct Node* temp = front;
+    printf("Deleted %d\n", front->data);
+    front = front->next;
+    free(temp);
+    if (front == NULL) rear = NULL;
+}
+
+void peek() {
+    if (front == NULL) {
+        printf("Queue Empty\n");
+        return;
+    }
+    printf("Front: %d\n", front->data);
+}
+
+void display() {
+    struct Node* temp = front;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    int ch, val;
+    while (1) {
+        printf("\n1.Enqueue 2.Dequeue 3.Peek 4.Display 5.Exit\n");
+        scanf("%d", &ch);
+        switch (ch) {
+            case 1: scanf("%d", &val); enqueue(val); break;
+            case 2: dequeue(); break;
+            case 3: peek(); break;
+            case 4: display(); break;
+            case 5: return 0;
+        }
+    }
+}
